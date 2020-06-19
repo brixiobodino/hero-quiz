@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hero Quiz</title>
+	 <link rel="stylesheet" type="text/css" href="Bulma/bulma.min.css">
+  <link rel="stylesheet" type="text/css" href="animate.css">
+	<style type="text/css">
+		 @font-face{
+      font-family: Montserrat-Bold;
+      src:url(Montserrat/Montserrat-Bold.ttf);
+    }
+    html,body{
+height: 100%;
+ padding:0;
+background-color:#17141D;
+}
+.text {
+   
+    text-transform: uppercase;
+    font-size: 3.5em;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 10px;
+    text-shadow:10px 10px 10px black;
+    font-family: Montserrat-Bold;
+    
+}
+.dev{
+  font-family: Montserrat-Bold !important;
+    color:#B0BEC5 !important;
+    font-size: 18px;
+    margin-top:10px;
+}
+
+.scene {
+  width: 100%;
+  height: 100%;
+  margin: 40px 0;
+  perspective: 600px;
+}
+
+.card_div {
+  position: relative;
+  width: 100%;
+  
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transform-origin: center right;
+  transition: transform 1s;
+
+}
+
+.card_div.is-flipped {
+  transform: translateX(-100%) rotateY(-180deg);
+}
+
+.card_div__face {
+ 
+  width: 100%;
+ 
+    backface-visibility: hidden;
+     background-color: #17141d;
+  border-radius: 10px;
+
+}
+
+.card_div__face--front {
+   background-color: #17141d;
+  border-radius: 10px;
+ box-shadow: -1rem 0 3rem #000;
+  
+}
+
+.card_div__face--back {
+  background: blue;
+  transform: rotateY(180deg);
+  position: absolute;
+  top: 0;
+   box-shadow: -1rem 0 3rem #000;
+}
+.play_btn{
+  background: #ee0979;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #ff6a00, #ee0979);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #ff6a00, #ee0979);font-size:16px;font-family: Montserrat-Bold !important;
+    color:#fff !important;
+    font-size: 14px;
+    padding:5px 10px;
+    border:none;
+    box-shadow: 1px 1px 10px 1px red;
+    text-shadow: 2px 2px #FF0000;
+    transition: font-size 0.5s;
+     animation-duration: 1s;
+  animation-name: bounceIn; 
+  border-bottom-left-radius:0px;
+  border-bottom-right-radius:0px;
+}
+
+.play_btn:hover {
+   font-size: 18px;
+}
+button#level1_btn:hover{
+   font-size: 14px;
+}
+
+.result_span{
+  background: #ee0979;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #ff6a00, #ee0979);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #ff6a00, #ee0979);font-size:16px;font-family: Montserrat-Bold !important;
+    color:#fff !important;
+    font-size: 14px;
+    padding:5px 10px;
+}
+.card_container{
+  background-color: #17141d;
+  border-radius: 10px;
+ 
+  height:350px;
+ 
+}
+.level_image img{
+  border-top-left-radius: 10px;border-top-right-radius: 10px;
+  height: 230px;
+  width: 100%
+}
+.level_title{
+  padding:0px 20px;
+  color:#fff;
+}
+.title_span{
+  color: #B0BEC5;
+}
+.difficulty_span{
+  border-radius:3px;font-size:12px;padding:0px 10px;padding-bottom:2px
+}
+.point_span{
+  color: #B0BEC5;
+}
+.easy{
+  color: #fff;background: #2793DA
+}
+.average{
+  background-color: #FFDB4A;
+  color:#000;
+}
+.hard{
+  background: #9642B6;
+  color:#fff;
+}
+.extreme{
+  background:#FF0000;
+  color:#fff;
+}
+.play_div{
+  text-align: right;
+}
+.nope_btn{
+  background: #f12711;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #f5af19, #f12711);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #f5af19, #f12711); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+color:#fff;
+}
+.yeah_btn{
+  background: #8E2DE2;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #4A00E0, #8E2DE2);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #4A00E0, #8E2DE2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+color:#fff;
+}
+.yeah_btn:hover,.nope_btn:hover{
+  font-weight: 700;
+  color:#fff;
+}
+.is-one-third{
+  position: relative;
+}
+.level_done{
+  display: none;
+  position: absolute;
+  width: 100%;
+  height:100%;
+  background-color: transparent;
+  z-index:100;
+  top:0
+}
+
+.column.is-one-third button {
+     font-size:12px;
+}
+#question{
+  color:#fff;font-size: 16px;
+}
+#overlay,#overlay2{
+  position: fixed;
+  top:0;
+  background-color: rgba(0,0,0,0.8);
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  z-index:199;
+  display: none;
+}
+#overlay_form,#overlay_details{
+  width:300px;
+  background-color:#17141D;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 10px; 
+  box-shadow: -1rem 0 3rem #000;
+}
+#overlay h1{
+  color:#fff;
+  margin-bottom: 10px;
+}
+#overlay .control{
+  text-align: right;
+  margin-top:10px;
+}
+#overlay2 #overlay_details{
+  width:350px;
+}
+#overlay2 p{
+  color: #B0BEC5;
+}
+#overlay2 ul{
+  color:#78909C;
+  margin-top:10px;
+}
+#congrats,#player_name_display{
+  color:#fff;
+  font-size:20px;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: montserrat
+}
+#got_it{
+  text-align: right;
+  display:block;
+  color:red;
+  font-weight:700;
+  text-decoration:underline;
+}
+span.results_p {
+    color:#fff;
+}
+.question_p{
+color: #B0BEC5;
+padding:10px;
+font-size:16px;
+}
+.choices{
+  margin-top: 20px;
+}
+#footer{
+  display: flex;
+  align-items:center;
+  height: 40px;
+  position:fixed;
+  width:100%;
+  background:#000;
+  bottom: 0;
+  opacity:0;
+  transition: opacity 0.5s ease-out, background 0.8s ease-out;
+  z-index:100;
+}
+#footer h2{
+  color:#fff;
+}
+ul.difficulty_div li{
+  margin-left:10px;
+}
+ul.rating_div li{
+  margin-left:10px;
+}
+
+
+	</style>
+
+
+</head>
+<body>
+<div class="top_div section" id="top_div" style="background:url('Image/background3.jpg');background-size: cover;height: 100%;display: flex;align-items: center;justify-content: center;">
+  <div class="title has-text-centered">
+    <h1 class="text">Hero Quiz</h1>
+    
+    <button class="play_btn" id="begin_playing" >Play Now !!!</button>
+  </div>
+</div>  
+<div style="width:250px;position: absolute;top: 10px;right: 10px;background:transparent;padding:10px;font-size:14px" id="setting_main">
+  <div class="setting_image" style="text-align: right;">
+    <img src="setting.png" style="width:40px" id="show_setting" title="show information">
+  </div>
+  <div class="setting_info" style="display:none;transition: background 0.5s ease-out" id="setting_info">
+    <div class="general_info" style="color:#90A4AE;padding-bottom: 10px;">
+        <h1>Game Name: Hero Quiz</h1>
+        <h1>Version: 1.0</h1>
+        <h1>Developer: Brixio Bodino</h1>
+        <h1>Tools: Html, Css, Javascript, Bulma</h1>
+    </div>
+    <div style="background: rgba(0,0,0,0.4);padding:10px;color:#B0BEC5">
+      <h1 class="has-text-centered">In Game Info</h1>
+      <h1 style="margin-top: 10px;">Total Points : 23</h1>
+      <h1 style="margin-top: 10px;">Difficulty :</h1>
+      <ul class="difficulty_div">
+          <li>Easy :3</li>
+          <li>Average :2</li>
+          <li>Hard :2</li> 
+          <li>Extreme :2</li>       
+      </ul>
+      <h1 style="margin-top: 10px;">Rating</h1>
+      <ul class="rating_div">
+          <li>Master</li>
+          <li>Expert</li>
+          <li>Normal</li> 
+          <li>Needs Improvement</li>       
+          <li>Study Hard</li>       
+      </ul>
+    </div>
+  </div>
+    
+  </div>
+<div class="section" style="padding-bottom: 50px;display: none" id="main_section">
+  <div class="container" >
+    <div class="columns is-multiline" > 
+       <!-- Level 1-->
+      <div class="column is-one-third"> 
+        <div class="scene scene--card_div">
+          <div class="card_div level1">
+            <div class="card_div__face card_div__face--front">
+               <div class="card_container" id="level1">
+                  <div class="level_image">
+                    <img src="Image/background.jpg">
+                  </div>
+                  <div class="level_title">
+                    <h2>Level : <span class="title_span">True or False</span></h2>
+                    <h3>Difficulty : <span class="difficulty_span easy">Easy</span></h3>
+                    <h2>Points : <span class="point_span" id="point">1</span></h2> 
+                   
+                  </div>
+                  <div class="play_div" style="s">
+                    <button class="play_btn" id="level1_btn" >Play Now !!!</button>
+                  </div>
+              </div> 
+            </div><!-- end of front -->
+            <div class="card_div__face card_div__face--back"> <!-- Back -->
+                <div class="card_container" id="card_wrapper1">
+                  <div class="level_image">
+                    <img src="Image/level1b.jpg">
+                  </div>
+                  <div class="level_title">
+                      <div class="question">
+                        <h1 class="subtitle" id="question">Is this Jose Rizal?</h1>
+                      </div>
+                      <div class="choices">
+                        <button class="button nope_btn" id="level1_btn1">Nope!</button>
+                        <button class="button yeah_btn" id="level1_btn2">Yeahh!</button>
+                      </div>
+                  </div>
+              </div> 
+            </div><!-- end of back -->
+          </div>
+        </div> <!-- scene -->
+        <div class="level_done" id="level1_done"> 
+        </div>
+    </div> <!-- is-one-third -->
+    <!-- End of Level 1 -->
+
+    <!-- Level 2 -->
+    <div class="column is-one-third"> 
+        <div class="scene scene--card_div">
+          <div class="card_div level2">
+            <div class="card_div__face card_div__face--front">
+               <div class="card_container">
+                  <div class="level_image">
+                    <img src="Image/category1.jpg">
+                  </div>
+                  <div class="level_title">
+                    <h2>Level : <span class="title_span">True or False</span></h2>
+                    <h3>Difficulty : <span class="difficulty_span easy">Easy</span></h3>
+                    <h2>Points : <span class="point_span" id="point2">1</span></h2> 
+                  </div>
+                  <div class="play_div">
+                    <button class="play_btn" id="level1_btn"  style="">Play Now !!!</button>
+                  </div>
+              </div> 
+            </div><!-- end of front -->
+            <div class="card_div__face card_div__face--back"> <!-- Back -->
+                <div class="card_container" id="card_wrapper1">
+                  <div class="level_image">
+                    <img src="Image/level2.jpg">
+                  </div>
+                  <div class="level_title">
+                      <div class="question">
+                        <h1 class="subtitle" id="question">Is this Andres Bonifacio?</h1>
+                      </div>
+                      <div class="choices">
+                        <button class="button nope_btn" id="level2_btn1">Nope!</button>
+                        <button class="button yeah_btn" id="level2_btn2">Yeahh!</button>
+                      </div>
+                  </div>
+              </div> 
+            </div><!-- end of back -->
+          </div>
+        </div> <!-- scene -->
+         <div class="level_done" id="level2_done"> 
+        </div>
+    </div> <!-- is-one-third -->
+    <!-- End of Level 2 -->
+
+      <!-- Level 3 -->
+    <div class="column is-one-third"> 
+        <div class="scene scene--card_div">
+          <div class="card_div level3">
+            <div class="card_div__face card_div__face--front">
+               <div class="card_container">
+                  <div class="level_image">
+                    <img src="Image/category2.jpg">
+                  </div>
+                  <div class="level_title">
+                    <h2>Level : <span class="title_span">Pick A Name</span></h2>
+                    <h3>Difficulty : <span class="difficulty_span easy">Easy</span></h3>
+                    <h2>Points : <span class="point_span" id="point3">1</span></h2> 
+                  </div>
+                  <div class="play_div">
+                    <button class="play_btn" id="level1_btn">Play Now !!!</button>
+                  </div>
+              </div> 
+            </div><!-- end of front -->
+            <div class="card_div__face card_div__face--back"> <!-- Back -->
+                <div class="card_container" id="card_wrapper1">
+                  <div class="level_image">
+                    <img src="Image/level3.jpg">
+                  </div>
+                  <div class="level_title">
+                      <div class="question">
+                        <h1 class="subtitle" id="question">He killed Magellan</h1>
+                      </div>
+                      <div class="choices">
+                        <button class="button nope_btn" id="level3_btn1">Lapu-Lapu</button>
+                        <button class="button yeah_btn" id="level3_btn2">Yamashita</button>
+                      </div>
+                  </div>
+              </div> 
+            </div><!-- end of back -->
+          </div>
+        </div> <!-- scene -->
+         <div class="level_done" id="level3_done"> 
+        </div>
+    </div> <!-- is-one-third -->
+    <!-- End of Level 3 -->
+
+    <!-- Level 4 -->
+    <div class="column is-one-third"> 
+        <div class="scene scene--card_div">
+          <div class="card_div level4">
+            <div class="card_div__face card_div__face--front">
+               <div class="card_container">
+                  <div class="level_image">
+                    <img src="Image/category3.jpg">
+                  </div>
+                  <div class="level_title">
+                    <h2>Level : <span class="title_span">Put something</span></h2>
+                    <h3>Difficulty : <span class="difficulty_span average">Average</span></h3>
+                    <h2>Points : <span class="point_span" id="point4">2</span></h2> 
+                  </div>
+                  <div class="play_div">
+                    <button class="play_btn" id="level1_btn"  style="">Play Now !!!</button>
+                  </div>
+              </div> 
+            </div><!-- end of front -->
+            <div class="card_div__face card_div__face--back"> <!-- Back -->
+                <div class="card_container" id="card_wrapper1">
+                  <div class="level_image">
+                    <img src="Image/level4.jpg">
+                  </div>
+                  <div class="level_title">
+                      <div class="question">
+                        <h1 class="subtitle" id="question">Emilio ______ is the first Philippine President</h1>
+                      </div>
+                      <div class="choices">
+                        <button class="button nope_btn" id="level4_btn1">Jacinto</button>
+                        <button class="button yeah_btn" id="level4_btn2">Aguinaldo</button>
+                      </div>
+                  </div>
+              </div> 
+            </div><!-- end of back -->
+          </div>
+        </div> <!-- scene -->
+         <div class="level_done" id="level4_done"> 
+        </div>
+    </div> <!-- is-one-third -->
+    <!-- End of Level 4 -->
+
+    <!-- Level 5 -->
+    <div class="column is-one-third"> 
+        <div class="scene scene--card_div">
+          <div class="card_div level5">
+            <div class="card_div__face card_div__face--front">
+               <div class="card_container">
+                  <div class="level_image">
+                    <img src="Image/category4.jpg">
+                  </div>
+                  <div class="level_title">
+                    <h2>Level : <span class="title_span">Put something</span></h2>
+                    <h3>Difficulty : <span class="difficulty_span average">Average</span></h3>
+                    <h2>Points : <span class="point_span" id="point5">2</span></h2> 
+                  </div>
+                  <div class="play_div">
+                    <button class="play_btn" id="level1_btn">Play Now !!!</button>
+                  </div>
+              </div> 
+            </div><!-- end of front -->
+            <div class="card_div__face card_div__face--back"> <!-- Back -->
+                <div class="card_container" id="card_wrapper1">
+                  <div class="level_image">
+                    <img src="Image/level5.jpg">
+                  </div>
+                  <div class="level_title">
+                      <div class="question">
+                        <h1 class="subtitle" id="question">Juan ______ is one of the fiercest generals of his time</h1>
+                      </div>
+                      <div class="choices">
+                        <button class="button nope_btn" id="level5_btn1">Escoda</button>
+                        <button class="button yeah_btn" id="level5_btn2">Luna</button>
+                      </div>
+                  </div>
+              </div> 
+            </div><!-- end of back -->
+          </div>
+        </div> <!-- scene -->
+         <div class="level_done" id="level5_done"> 
+        </div>
+    </div> <!-- is-one-third -->
+    <!-- End of Level 5 -->
+
+        <!-- Level 6 -->
+    <div class="column is-one-third"> 
+        <div class="scene scene--card_div">
+          <div class="card_div level6">
+            <div class="card_div__face card_div__face--front">
+               <div class="card_container">
+                  <div class="level_image">
+                    <img src="Image/category5.jpg">
+                  </div>
+                  <div class="level_title">
+                    <h2>Level : <span class="title_span">Who Am I ?</span></h2>
+                    <h3>Difficulty : <span class="difficulty_span hard">Hard</span></h3>
+                    <h2>Points : <span class="point_span" id="point6">3</span></h2> 
+                  </div>
+                  <div class="play_div">
+                    <button class="play_btn" id="level1_btn">Play Now !!!</button>
+                  </div>
+              </div> 
+            </div><!-- end of front -->
+            <div class="card_div__face card_div__face--back"> <!-- Back -->
+                <div class="card_container" id="card_wrapper1">
+                  <div class="question_p">
+                    <p>She was a Filipina revolutionary leader best known as the first female leader of an Ilocano movement for independence from Spain. She took over the reins of her husband's revolutionary movement after his assassination, leading the Ilocano rebel movement for four months before she was captured and executed by the colonial government of the Spanish East Indies.</p>
+                  </div>
+                  <div class="level_title">
+                      <div class="choices">
+                        <button class="button nope_btn" id="level6_btn1" >Gabriela Silang</button>
+                        <button class="button yeah_btn" id="level6_btn2" >Josefa Escoda</button>
+                      </div>
+                  </div>
+              </div> 
+            </div><!-- end of back -->
+          </div>
+        </div> <!-- scene -->
+         <div class="level_done" id="level6_done"> 
+        </div>
+    </div> <!-- is-one-third -->
+    <!-- End of Level 6 -->
+
+     <!-- Level 7 -->
+    <div class="column is-one-third"> 
+        <div class="scene scene--card_div">
+          <div class="card_div level7">
+            <div class="card_div__face card_div__face--front">
+               <div class="card_container">
+                  <div class="level_image">
+                    <img src="Image/category6.jpg">
+                  </div>
+                  <div class="level_title">
+                    <h2>Level : <span class="title_span">Who Am I ?</span></h2>
+                    <h3>Difficulty : <span class="difficulty_span hard">Hard</span></h3>
+                    <h2>Points : <span class="point_span" id="point7">3</span></h2> 
+                  </div>
+                  <div class="play_div">
+                    <button class="play_btn" id="level1_btn">Play Now !!!</button>
+                  </div>
+              </div> 
+            </div><!-- end of front -->
+            <div class="card_div__face card_div__face--back"> <!-- Back -->
+                <div class="card_container" id="card_wrapper1">
+                  <div class="question_p" >
+                    <p>She was a Filipina revolutionary who was known as the "Grand Woman of the Revolution" and the "Mother of Balintawak" for her contributions.In her native town, she operated a store which became a refuge for the sick and wounded revolutionaries. She fed, gave medical attention to and encouraged the revolutionaries with motherly advice and prayers.</p>
+                  </div>
+                  <div class="level_title">
+                      <div class="choices">
+                        <button class="button nope_btn" id="level7_btn1" >Josefa Escoda</button>
+                        <button class="button yeah_btn" id="level7_btn2" >Melchora Aquino</button>
+                      </div>
+                  </div>
+              </div> 
+            </div><!-- end of back -->
+          </div>
+        </div> <!-- scene -->
+         <div class="level_done" id="level7_done"> 
+        </div>
+    </div> <!-- is-one-third -->
+    <!-- End of Level 7 -->
+
+    <!-- Level 8 -->
+    <div class="column is-one-third"> 
+        <div class="scene scene--card_div">
+          <div class="card_div level8">
+            <div class="card_div__face card_div__face--front">
+               <div class="card_container">
+                  <div class="level_image">
+                    <img src="Image/category7.jpg">
+                  </div>
+                  <div class="level_title">
+                    <h2>Level : <span class="title_span">Jumbled Bee</span></h2>
+                    <h3>Difficulty : <span class="difficulty_span extreme">Extreme</span></h3>
+                    <h2>Points : <span class="point_span" id="point8">5</span></h2> 
+                  </div>
+                  <div class="play_div">
+                    <button class="play_btn" id="level1_btn">Play Now !!!</button>
+                  </div>
+              </div> 
+            </div><!-- end of front -->
+            <div class="card_div__face card_div__face--back"> <!-- Back -->
+                <div class="card_container" id="card_wrapper1">
+                  <div class="question_p">
+                    <p>He was a Filipino general of the Philippine Revolutionary Army during the Philippine–American War. As one of the youngest generals in the Revolutionary Army, he was known for the successful assault on the Spanish barracks in the municipality of Paombong, his victory on the first phase Battle of Quingua and his last stand at the Battle of Tirad Pass.</p>
+                  </div>
+                  <div class="level_title">
+                      <div class="choices">
+                        <button class="button nope_btn" id="level8_btn1" >Del Pilar</button>
+                        <button class="button yeah_btn" id="level8_btn2" >Dagohoy</button>
+                        
+                      </div>
+                  </div>
+              </div> 
+            </div><!-- end of back -->
+          </div>
+        </div> <!-- scene -->
+         <div class="level_done" id="level8_done" > 
+        </div>
+    </div> <!-- is-one-third -->
+    <!-- End of Level 8 -->
+
+     <!-- Level 9 -->
+    <div class="column is-one-third"> 
+        <div class="scene scene--card_div">
+          <div class="card_div level9">
+            <div class="card_div__face card_div__face--front">
+               <div class="card_container">
+                  <div class="level_image">
+                    <img src="Image/final2.jpg">
+                  </div>
+                  <div class="level_title">
+                    <h2>Level : <span class="title_span">Jumbled Bee</span></h2>
+                    <h3>Difficulty : <span class="difficulty_span extreme">Extreme</span></h3>
+                    <h2>Points : <span class="point_span" id="point9">5</span></h2> 
+                  </div>
+                  <div class="play_div">
+                    <button class="play_btn" id="level1_btn">Play Now !!!</button>
+                  </div>
+              </div> 
+            </div><!-- end of front -->
+            <div class="card_div__face card_div__face--back"> <!-- Back -->
+                <div class="card_container" id="card_wrapper1">
+                    <div class="level_image">
+                    <img src="Image/level9.jpg">
+                  </div>
+                  <div class="level_title">
+                      <div class="question">
+                        <h1 class="subtitle" id="question">He is one of the three priest known as "Gomburza"</h1>
+                      </div>
+                      <div class="choices">
+                        <button class="button nope_btn" id="level9_btn1">Diego Zamodoio</button>
+                        <button class="button yeah_btn" id="level9_btn2">Jacinto Zamora</button>
+                      </div>
+                  </div>
+              </div>  
+            </div><!-- end of back -->
+          </div>
+        </div> <!-- scene -->
+         <div class="level_done" id="level9_done" ></div>
+    </div> <!-- is-one-third -->
+    <!-- End of Level 8 -->
+    </div><!-- columns is-multiline -->
+  </div><!-- container -->
+</div><!-- section -->
+<div id="overlay">
+  <div id="overlay_form">
+      <h1>Enter Your Name to Proceed</h1>
+      <div class="control">
+          <input class="input" type="text" placeholder="Name" id="player_name">
+      </div>
+      <div class="control">
+          <a class="play_btn" id="begin" href="#main_section">Submit</a>
+      </div>
+  </div>
+</div>
+<div id="overlay2">
+  <div id="overlay_details">
+      <h1 id="congrats">Congrats</h1>
+      <h1 id="player_name_display"></h1>
+      <p>You have sucessfully completed the game. Take a quick recap of what you have done.</p>
+      <ul>
+        <li>Correct Answer : <span class="results_p"><span id="total_correct"></span>/9 </span></li>
+        <li>Wrong Answer : <span class="results_p"><span id="total_wrong"></span>/9</span></li>
+        <li>Accuracy : <span class="results_p"><span id="accuracy"></span>%</span></li>
+        <li>Total Points : <span class="results_p"><span id="total_points"></span></span></li>
+        <li>Rating :<span class="results_p"> <span id="rating"></span></span></li>
+      </ul>
+      <a href="" id="got_it">Got It</a>
+  </div>
+</div>
+<div id="footer">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-6">
+          <h2 class="title is-5" id="result"></h2>
+      </div>
+      <div class="column is-6">
+          <h2 class="title is-5">Total Points : <span id="total_points2"></span></h2>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var setting_on = false;
+ var show_setting=document.getElementById('show_setting');
+ var setting_main=document.getElementById('setting_main');
+ var setting_info=document.getElementById('setting_info');
+ show_setting.onclick=function(){
+  
+  if (setting_on == false) {
+      setting_info.style.display="block";
+      setting_main.style.background="#17141D";
+      setting_on=true;
+  }else{
+    setting_on=false;
+    setting_info.style.display="none";
+    setting_main.style.background="transparent";
+  }
+ }
+	var level1 = document.querySelector('.level1');
+  level1.addEventListener( 'click', function() {
+  level1.classList.toggle('is-flipped');
+  });
+  var level2 = document.querySelector('.level2');
+  level2.addEventListener( 'click', function() {
+  level2.classList.toggle('is-flipped');
+  });
+  var level3 = document.querySelector('.level3');
+  level3.addEventListener( 'click', function() {
+  level3.classList.toggle('is-flipped');
+  });
+  var level4 = document.querySelector('.level4');
+  level4.addEventListener( 'click', function() {
+  level4.classList.toggle('is-flipped');
+  });
+  var level5 = document.querySelector('.level5');
+  level5.addEventListener( 'click', function() {
+  level5.classList.toggle('is-flipped');
+  });
+   var level6 = document.querySelector('.level6');
+  level6.addEventListener( 'click', function() {
+  level6.classList.toggle('is-flipped');
+  });
+  var level7 = document.querySelector('.level7');
+  level7.addEventListener( 'click', function() {
+  level7.classList.toggle('is-flipped');
+  });
+  var level8 = document.querySelector('.level8');
+  level8.addEventListener( 'click', function() {
+  level8.classList.toggle('is-flipped');
+  });
+  var level9 = document.querySelector('.level9');
+  level9.addEventListener( 'click', function() {
+  level9.classList.toggle('is-flipped');
+  });
+
+
+var score = 0;
+var player="Player";
+var begin_playing=document.getElementById('begin_playing');
+var main_section=document.getElementById('main_section');
+var overlay=document.getElementById('overlay');
+var overlay2=document.getElementById('overlay2');
+var begin=document.getElementById('begin');
+var player_name=document.getElementById('player_name');
+var player_name_display=document.getElementById('player_name_display');
+var total_correct=document.getElementById('total_correct');
+var total_wrong=document.getElementById('total_wrong');
+var accuracy=document.getElementById('accuracy');
+var rating=document.getElementById('rating');
+begin_playing.onclick=function(){
+  overlay.style.display="flex";
+}
+begin.onclick=function(){
+
+  player=player_name.value;
+  if(player=="") {
+    alert("Please put your name");
+    overlay.style.display="flex";
+  }else{
+     player_name_display.innerHTML=player;
+  main_section.style.display="flex";
+    overlay.style.display="none";
+  }
+ 
+}
+var hide_footer=document.getElementById('hide_footer');
+var level1_done=document.getElementById('level1_done');
+var level2_done=document.getElementById('level2_done');
+var level3_done=document.getElementById('level3_done');
+var level4_done=document.getElementById('level4_done');
+var level5_done=document.getElementById('level5_done');
+var level6_done=document.getElementById('level6_done');
+var level7_done=document.getElementById('level7_done');
+var level8_done=document.getElementById('level8_done');
+var level9_done=document.getElementById('level9_done');
+var level1_btn1=document.getElementById('level1_btn1');
+var level1_btn2=document.getElementById('level1_btn2');
+var level2_btn1=document.getElementById('level2_btn1');
+var level2_btn2=document.getElementById('level2_btn2');
+var level3_btn1=document.getElementById('level3_btn1');
+var level3_btn2=document.getElementById('level3_btn2');
+var level4_btn1=document.getElementById('level4_btn1');
+var level4_btn2=document.getElementById('level4_btn2');
+var level5_btn1=document.getElementById('level5_btn1');
+var level5_btn2=document.getElementById('level5_btn2');
+var level6_btn1=document.getElementById('level6_btn1');
+var level6_btn2=document.getElementById('level6_btn2');
+var level7_btn1=document.getElementById('level7_btn1');
+var level7_btn2=document.getElementById('level7_btn2');
+var level8_btn1=document.getElementById('level8_btn1');
+var level8_btn2=document.getElementById('level8_btn2');
+var level9_btn1=document.getElementById('level9_btn1');
+var level9_btn2=document.getElementById('level9_btn2');
+var result=document.getElementById('result');
+var wrong="Naahhh, Thats Incorrect";
+var correct="Awesome, You are Correct";
+var point=document.getElementById('point').innerHTML;
+var point2=document.getElementById('point2').innerHTML;
+var point3=document.getElementById('point3').innerHTML;
+var point4=document.getElementById('point4').innerHTML;
+var point5=document.getElementById('point5').innerHTML;
+var point6=document.getElementById('point6').innerHTML;
+var point7=document.getElementById('point7').innerHTML;
+var point8=document.getElementById('point8').innerHTML;
+var point9=document.getElementById('point9').innerHTML;
+var footer=document.getElementById('footer');
+var total_score;
+var total_points=document.getElementById('total_points');
+var total_points2=document.getElementById('total_points2');
+
+level1_done.onclick=function(){
+   alert('You are already done with this level');
+}
+level2_done.onclick=function(){
+   alert('You are already done with this level');
+}
+level3_done.onclick=function(){
+   alert('You are already done with this level');
+}
+level4_done.onclick=function(){
+   alert('You are already done with this level');
+}
+level5_done.onclick=function(){
+   alert('You are already done with this level');
+}
+level6_done.onclick=function(){
+   alert('You are already done with this level');
+}
+level7_done.onclick=function(){
+   alert('You are already done with this level');
+}
+level8_done.onclick=function(){
+   alert('You are already done with this level');
+}
+level9_done.onclick=function(){
+   alert('You are already done with this level');
+}
+function correct_answer($point,$done){
+    result.innerHTML=correct;
+    total_score=score+ +$point;
+    score=total_score;
+    total_points.innerHTML=total_score;
+    total_points2.innerHTML=total_score;
+    footer.style.opacity="1";
+    footer.style.background="#000";
+    $done.style.display="block";
+     setTimeout(function () {
+        document.getElementById('footer').style.opacity='0';
+    }, 2000);
+   
+if (total_score>20) {
+  rating.innerHTML="Master";
+}
+if(total_score<20){
+  rating.innerHTML="Expert";
+}
+ if(total_score<16){
+  rating.innerHTML="Normal";
+}
+if(total_score<12 ){
+  rating.innerHTML="Needs Improvement";
+}
+ if(total_score<5  ){
+  rating.innerHTML="Study Hard";
+}     
+}
+function wrong_answer($done){
+   result.innerHTML=wrong;
+   footer.style.opacity="1";
+   footer.style.background="#D50000";
+   $done.style.display="block";
+    setTimeout(function () {
+        document.getElementById('footer').style.opacity='0';
+    }, 2000);
+}
+var level_answered=0;
+var total_correct_answer=0;
+var total_wrong_answer=0;
+level1_btn1.onclick=function(){
+  wrong_answer(level1_done);
+  level_answered++;
+  total_wrong_answer++;
+ total_wrong_func();
+  max_level();
+ }
+level1_btn2.onclick=function(){
+  correct_answer(point,level1_done);
+  level_answered++;
+  total_correct_answer++;
+  total_correct_func();
+  max_level();
+ }
+level2_btn1.onclick=function(){
+  wrong_answer(level2_done);
+  total_wrong_answer++;
+  level_answered++;
+   total_wrong_func();
+  max_level();
+}
+level2_btn2.onclick=function(){
+  correct_answer(point2,level2_done);
+  level_answered++;
+  total_correct_answer++;
+   total_correct_func();
+  max_level();
+}
+level3_btn1.onclick=function(){
+   correct_answer(point3,level3_done);
+   level_answered++; 
+   total_correct_answer++;
+   max_level();
+   total_correct_func();
+}
+level3_btn2.onclick=function(){
+    wrong_answer(level3_done);
+    level_answered++;
+    total_wrong_answer++;
+    max_level();
+    total_wrong_func();
+}
+level4_btn1.onclick=function(){
+     wrong_answer(level4_done);
+     level_answered++;
+     total_wrong_answer++;
+     max_level();
+     total_wrong_func();
+}
+level4_btn2.onclick=function(){
+    correct_answer(point4,level4_done); 
+    level_answered++;
+    total_correct_answer++;
+    max_level();
+    total_correct_func();
+}
+level5_btn1.onclick=function(){
+     wrong_answer(level5_done);
+     level_answered++;
+     total_wrong_answer++;
+     max_level();
+     total_wrong_func();
+}
+level5_btn2.onclick=function(){
+   correct_answer(point5,level5_done); 
+   level_answered++;
+   total_correct_answer++;
+   max_level();
+   total_correct_func();
+}
+level6_btn1.onclick=function(){
+  correct_answer(point6,level6_done);  
+  level_answered++;
+  total_correct_answer++;
+  max_level();
+  total_correct_func();
+}
+level6_btn2.onclick=function(){
+   wrong_answer(level6_done);
+   level_answered++;
+   total_wrong_answer++;
+   max_level();
+   total_wrong_func();
+}
+level7_btn1.onclick=function(){
+  wrong_answer(level7_done); 
+  level_answered++;
+  total_wrong_answer++;
+  total_wrong_func();
+  max_level();
+}
+level7_btn2.onclick=function(){
+   correct_answer(point7,level7_done);
+   level_answered++; 
+   total_correct_answer++;
+   max_level();
+   total_correct_func();
+}
+level8_btn1.onclick=function(){
+   correct_answer(point8,level8_done); 
+   level_answered++;
+   total_correct_answer++;
+   max_level();
+   total_correct_func();
+}
+level8_btn2.onclick=function(){
+  wrong_answer(level8_done); 
+  level_answered++;
+  total_wrong_answer++;
+  max_level();
+  total_wrong_func();
+}
+level9_btn1.onclick=function(){
+  wrong_answer(level9_done);
+  level_answered++;
+  total_wrong_answer++;
+  max_level();
+  total_wrong_func();
+}
+level9_btn2.onclick=function(){ 
+  correct_answer(point9,level9_done); 
+  level_answered++;
+  total_correct_answer++;
+  max_level();
+  total_correct_func();
+}
+function max_level(){
+  if (level_answered==9) {
+  overlay2.style.display="flex";
+  }
+}
+function total_correct_func(){
+  total_correct.innerHTML=total_correct_answer;
+  var accuracy_total=(total_correct_answer / 9) * 100;
+  var accuracy_total_round=accuracy_total.toFixed(2);
+  accuracy.innerHTML=accuracy_total_round ;
+}
+function total_wrong_func(){
+  total_wrong.innerHTML=total_wrong_answer;
+}
+</script>
+</body>
+</html>
